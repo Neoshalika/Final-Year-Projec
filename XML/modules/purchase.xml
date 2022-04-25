@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="purchase" to-string-ts="purchase.code" to-string-java="purchase.getCode();">
+    <code length="8" prefix="PU" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property exist-on-table="yes" width="6" required="yes" searchable="yes" basic="yes" name="supplier" label="Supplier" referenced-from="supplier" service-method="getAllBasic" to-string-ts="supplier.name" to-string-java="supplier.getName()"/>
+        <reference-property exist-on-table="yes" width="6" required="yes" basic="yes" name="porder" label="Purchase Order" referenced-from="porder" service-method="getAllBasic" to-string-ts="porder.code" to-string-java="porder.getCode()"/>
+    </group>
+    <group>
+        <date-property name="date" exist-on-table="yes" label="Date" example="2020-12-31" required="yes" width="6" />
+        <decimal-property name="total" required="yes" exist-on-table="yes" searchable="yes"  label="Total" example="25" precision="10" scale="2" min="0" max="10000000" width="6"/>
+    </group>
+
+     <sub-module label="Purchase Material" name="purchasematerial" to-string-ts="purchasematerial.material.name" to-string-java="purchasematerial.material.getName()">
+         <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+         <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="10000000"/>
+        <decimal-property name="unitprice" label="Unit Price" example="25" precision="13" scale="3" min="0" max="10000000"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+</regular-module>
+
+

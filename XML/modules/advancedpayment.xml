@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="advancedpayment" to-string-ts="advancedpayment.code" to-string-java="advancedpayment.getCode()">
+    <code length="8" prefix="AP" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property width="8" exist-on-table="yes" searchable="yes" name="employee" label="Employee" referenced-from="employee" service-method="getAllBasic" required="yes" to-string-ts="employee.nametitle.name + ' ' + employee.callingname" to-string-java="employee.getNametitle.getName() + #quat; #quat; + employee.getCallingname()"/>
+        <reference-property searchable="yes" exist-on-table="yes" width="4" name="advancedpaymentstatus" label="Advanced Payment Status" referenced-from="advancedpaymentstatus" service-method="getAll" live="no" required="yes" insertable="no" default-value="1" to-string-ts="advancedpaymentstatus.name" to-string-java="advancedpaymentstatus.getName()"/>
+    </group>
+    <group>
+        <date-property width="6" required="yes"  name="date" label="Date" example="2000-12-31" exist-on-table="yes"/>
+        <decimal-property  width="6" required="yes" exist-on-table="yes" name="amount" label="Amount" example="2500.00" precision="10" scale="2" min="0" max="10000000"/>
+    </group>
+    <text-property  name="reason" label="Reason" example="Reason ABC"/>
+
+
+</regular-module>
+
+

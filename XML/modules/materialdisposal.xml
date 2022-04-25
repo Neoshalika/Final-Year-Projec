@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="materialdisposal" to-string-ts="materialdisposal.code" to-string-java="materialdisposal.getCode()">
+    <code length="8" prefix="MD" searchable="yes" exist-on-table="yes"/>
+
+        <text-property  basic="yes" name="reason" label="Reason" example="Reason ABC" required="yes"/>
+        <date-property exist-on-table="yes" basic="yes" required="yes"  name="date" label="Date" example="2000-12-31"/>
+
+    <sub-module label="Material Disposal Material" name="materialdisposalmaterial" to-string-ts="materialdisposalmaterial.material.name" to-string-java="materialdisposalmaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property required="yes" name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="100000000"/>
+    </sub-module>
+</regular-module>
+
+

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="productdisposal" to-string-ts="productdisposal.code" to-string-java="productdisposal.getCode()">
+    <code length="8" prefix="PD" searchable="yes" exist-on-table="yes"/>
+
+    <text-property  name="reason" label="Reason" example="Reason ABC"/>
+    <date-property exist-on-table="yes" required="yes" name="date" label="Date" example="2000-12-31"/>
+
+    <sub-module label="Product Disposal Product" name="productdisposalproduct" to-string-ts="productdisposalproduct.product.name" to-string-java="productdisposalproduct.product.getName()()">
+        <reference-property name="product" label="product" to-string-java="product.getName()" to-string-ts="product.name" service-method="getAllBasic" referenced-from="product" required="yes"/>
+        <int-property name="qty" label="Quantity" example="10"/>
+    </sub-module>
+
+</regular-module>
+
+

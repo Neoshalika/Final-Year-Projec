@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="supplierpayment_delete" event="AFTER_DELETE" table="supplierpayment">
+    update purchase set balance = balance + OLD.amount where id = OLD.purchase_id;
+</trigger>

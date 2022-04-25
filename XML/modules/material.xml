@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()">
+    <code length="8" prefix="MA" searchable="yes" exist-on-table="yes"/>
+
+
+    <group>
+        <reference-property basic="yes" required="yes" width="4" exist-on-table="yes" name="materialsubcategory" searchable="yes" label="Material Sub Category" referenced-from="materialsubcategory" service-method="getAllBasic" to-string-java="materialsubcategory.getName()" to-string-ts="materialsubcategory.name"/>
+        <reference-property width="4" required="yes" name="unit" label="Unit"  referenced-from="unit" exist-on-table="yes" service-method="getAll" live="no" to-string-ts="unit.name" to-string-java="unit.getName()"/>
+        <varchar-property width="4" pattern="^[a-zA-Z ]{3,}$" basic="yes" exist-on-table="yes" searchable="yes" required="yes" name="name" label="Name" example="3*4*8" />
+    </group>
+
+    <group>
+        <decimal-property name="qty" required="yes" label="Quantity" example="25" precision="13" scale="2" min="0" max="100000000" width="4"/>
+        <decimal-property name="rop"  label="Reorder Point" example="5" precision="13" scale="3" min="0" max="100000000" width="4"/>
+        <decimal-property name="lastprice" required="yes" label="Last Price" example="Rs 2500.00" precision="10" scale="2" min="0" max="100000000" width="4"/>
+    </group>
+    <group>
+        <reference-property width="6" required="yes" name="materialstatus" label="Material Status" referenced-from="materialstatus" insertable="no" default-value="1" exist-on-table="yes" service-method="getAll" to-string-ts="materialstatus.name" to-string-java="materialstatus.getName()"/>
+        <varchar-property width="6" name="more" label="More Details" example="Stisfied or unsatisfied" insertable="no"></varchar-property>
+    </group>
+
+    <file-property basic="yes" name="photo" label="Photo" accept="image/*" exist-on-table="yes"/>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+
+
+
+</regular-module>

@@ -1,0 +1,134 @@
+<app-no-privilege *ngIf="!privilege.update" message="No privilege to change customer details"></app-no-privilege>
+<div *ngIf="this.customer && privilege.update">
+  <app-page-header
+    title="Customer Change Form of {{ customer.code + '-' + customer.nametitle.name + ' ' + customer.name }}"
+    [breadcrumbSegments]="['Customers', 'Show All Customers', 'Change Details of ' + customer.code + '-' + customer.nametitle.name + ' ' + customer.name]"
+  ></app-page-header>
+  <form [formGroup]="form" (ngSubmit)="submit()" #ngForm="ngForm">
+    <mat-card>
+      <mat-card-content>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Title</mat-label>
+                <mat-select formControlName="nametitle" required>
+                  <mat-option *ngFor="let nametitle of nametitles" [value]="nametitle.id">{{nametitle.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="nametitleField.invalid">
+                  <span *ngIf="nametitleField.errors.required">Select at lease one title</span>
+                  <span *ngIf="nametitleField.errors.server">{{nametitleField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-8">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-hint>Ex: Kithsiri</mat-hint>
+                <mat-error *ngIf="nameField.invalid">
+                  <span *ngIf="nameField.errors.required">Name is required</span>
+                  <span *ngIf="nameField.errors.server">{{nameField.errors.server.join(', ')}}</span>
+                  <span *ngIf="nameField.errors.minlength">Name should has at least null characters. </span>
+                  <span *ngIf="nameField.errors.maxlength">Name can have a maximum of 255 characters. </span>
+                  <span *ngIf="nameField.errors.pattern">Name is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Primary contact</mat-label>
+                <input matInput formControlName="primarycontact" required>
+                <mat-hint>Ex: 0789456123</mat-hint>
+                <mat-error *ngIf="primarycontactField.invalid">
+                  <span *ngIf="primarycontactField.errors.required">Primary contact is required</span>
+                  <span *ngIf="primarycontactField.errors.server">{{primarycontactField.errors.server.join(', ')}}</span>
+                  <span *ngIf="primarycontactField.errors.minlength">Primary contact should has 10 characters. </span>
+                  <span *ngIf="primarycontactField.errors.maxlength">Primary contact should has 10 characters. </span>
+                  <span *ngIf="primarycontactField.errors.pattern">Primary contact is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Alternate contact</mat-label>
+                <input matInput formControlName="alternatecontact" >
+                <mat-hint>Ex: 0789456123</mat-hint>
+                <mat-error *ngIf="alternatecontactField.invalid">
+                  <span *ngIf="alternatecontactField.errors.server">{{alternatecontactField.errors.server.join(', ')}}</span>
+                  <span *ngIf="alternatecontactField.errors.minlength">Alternate contact should has 10 characters. </span>
+                  <span *ngIf="alternatecontactField.errors.maxlength">Alternate contact should has 10 characters. </span>
+                  <span *ngIf="alternatecontactField.errors.pattern">Alternate contact is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email Address</mat-label>
+                <input matInput formControlName="email" >
+                <mat-hint>Ex: user@gmail.com</mat-hint>
+                <mat-error *ngIf="emailField.invalid">
+                  <span *ngIf="emailField.errors.server">{{emailField.errors.server.join(', ')}}</span>
+                  <span *ngIf="emailField.errors.minlength">Email Address should has at least 5 characters. </span>
+                  <span *ngIf="emailField.errors.maxlength">Email Address can have a maximum of 255 characters. </span>
+                  <span *ngIf="emailField.errors.pattern">Email Address is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Fax Number</mat-label>
+                <input matInput formControlName="fax" >
+                <mat-hint>Ex: 12344321</mat-hint>
+                <mat-error *ngIf="faxField.invalid">
+                  <span *ngIf="faxField.errors.server">{{faxField.errors.server.join(', ')}}</span>
+                  <span *ngIf="faxField.errors.minlength">Fax Number should has at least null characters. </span>
+                  <span *ngIf="faxField.errors.maxlength">Fax Number can have a maximum of 255 characters. </span>
+                  <span *ngIf="faxField.errors.pattern">Fax Number is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Address</mat-label>
+            <textarea matInput formControlName="address" required></textarea>
+            <mat-hint>Ex: 123, Colombo Road, Gampaha</mat-hint>
+            <mat-error *ngIf="addressField.invalid">
+              <span *ngIf="addressField.errors.required">Address is required</span>
+              <span *ngIf="addressField.errors.server">{{addressField.errors.server.join(', ')}}</span>
+              <span *ngIf="addressField.errors.minlength">Address should has at least 4 characters. </span>
+              <span *ngIf="addressField.errors.maxlength">Address can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+            <mat-error *ngIf="descriptionField.invalid">
+              <span *ngIf="descriptionField.errors.server">{{descriptionField.errors.server.join(', ')}}</span>
+              <span *ngIf="descriptionField.errors.minlength">Description should has at least null characters. </span>
+              <span *ngIf="descriptionField.errors.maxlength">Description can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/customers" class="ml-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Customers</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="button" (click)="discardChanges()"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

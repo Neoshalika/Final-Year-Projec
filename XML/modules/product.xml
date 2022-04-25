@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="product" to-string-ts="product.code + '-' + product.name" to-string-java="product.getCode() + #quat;-#quat; + product.getName()">
+    <code length="8" prefix="PR" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <varchar-property width="8" pattern="^[a-zA-Z ]{3,}$" exist-on-table="yes" basic="yes" searchable="yes" required="yes" name="name" label="Name" example="ABC"/>
+        <reference-property width="4" name="productstatus" label="Status" exist-on-table="yes" referenced-from="productstatus" service-method="getAll" insertable="no" default-value="1" to-string-ts="productstatus.name" to-string-java="productstatus.getName()"/>
+    </group>
+
+    <file-property name="photo" label="Photo" accept="image/*" exist-on-table="yes"/>
+
+    <group>
+        <int-property required="yes" name="qty" label="Quantity" example="30" width="4" exist-on-table="yes"/>
+        <decimal-property  searchable="yes" name="unitprice" label="Unit Price" example="25" precision="10" scale="2" min="0" max="10000000" width="4" exist-on-table="yes"/>
+        <decimal-property required="yes" name="rpqty" label="Reorder Point Qty" example="5" precision="13" scale="3" min="0" max="10000000" width="4" exist-on-table="yes"/>
+    </group>
+
+    <sub-module label="Product Material" name="productmaterial" to-string-ts="productmaterial.material.name" to-string-java="productmaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="1000000" width="4"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Description"/>
+
+
+</regular-module>
+
+

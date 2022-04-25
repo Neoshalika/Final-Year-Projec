@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="prorder" to-string-ts="prorder.code" to-string-java="prorder.getCode()">
+    <code length="8" prefix="PO" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property basic="yes" width="6" exist-on-table="yes" name="customorderitem" searchable="yes" label="Customer Order Item" referenced-from="customorderitem" service-method="getAllBasic"  to-string-ts="customorderitem.name" to-string-java="customorderitem.getName()"/>
+        <reference-property basic="yes" width="6" exist-on-table="yes" name="product" searchable="yes" label="Product" referenced-from="product" service-method="getAllBasic" to-string-ts="product.name" to-string-java="product.getName()"/>
+    </group>
+    <group>
+        <int-property basic="yes" width="4" exist-on-table="yes" name="qty" label="Quantity" example="25" min="0" max="1000000"/>
+        <date-property name="dostart" basic="yes" label="Date of Start" example="2021-02-31" required="yes" width="4" exist-on-table="yes"/>
+        <date-property name="deadline" label="Deadline" example="2021-03-31"  width="4" />
+    </group>
+    <group>
+        <date-property name="doend" label="Date of End" example="2021-03-20"  width="6" insertable="no" />
+        <reference-property width="6" basic="yes" exist-on-table="yes" name="prorderstatus" searchable="yes" label="Status" referenced-from="prorderstatus" service-method="getAll" live="no" to-string-ts="prorderstatus.name" insertable="no" default-value="1" to-string-java="prorderstatus.getName()"/>
+    </group>
+
+    <sub-module label="Production Order Material" name="prordermaterial" to-string-ts="prordermaterial.material.name" to-string-java="prordermaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="1000000"/>
+    </sub-module>
+
+    <sub-module label="Production Order Employee" name="prorderemployee" to-string-ts="prorderemployee.date" to-string-java="prorderemployee.getDate()">
+        <reference-property name="employee" label="Employee" to-string-ts="employee.code + '-' + employee.nametitle.name + ' ' + employee.callingname" to-string-java="employee.getCode() + #quat;-#quat; + employee.getNametitle.getName() + #quat; #quat; + employee.getCallingname()" service-method="getAllBasic" referenced-from="employee"/>
+        <date-property name="date" label="Date" example="2021-02-31" required="yes"/>
+        <time-property name="tostart" label="Time of Start" example="09.00 AM"/>
+        <time-property name="toend" label="Time of End" example="14.00 PM"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+</regular-module>
+
+

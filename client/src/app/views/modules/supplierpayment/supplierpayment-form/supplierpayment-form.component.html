@@ -1,0 +1,159 @@
+<app-no-privilege message="No privilege to add new supplierpayment" *ngIf="!privilege.add"></app-no-privilege>
+<div *ngIf="privilege.add">
+  <app-page-header title="Supplierpayment Form" [breadcrumbSegments]="['Supplierpayments', 'Add New Supplierpayment']"></app-page-header>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card>
+      <mat-card-content>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Supplier</mat-label>
+                <mat-select (selectionChange)="loadPurchase()" formControlName="supplier" required>
+                  <mat-option *ngFor="let supplier of suppliers" [value]="supplier.id">{{supplier.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="supplierField.invalid">
+                  <span *ngIf="supplierField.errors.required">Select at lease one supplier</span>
+                  <span *ngIf="supplierField.errors.server">{{supplierField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Purchase</mat-label>
+                <mat-select formControlName="purchase" required>
+                  <mat-option (onSelectionChange)= "amountField.patchValue(purchase.total)" *ngFor="let purchase of purchases" [value]="purchase.id">{{purchase.code}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="purchaseField.invalid">
+                  <span *ngIf="purchaseField.errors.required">Select at lease one purchase</span>
+                  <span *ngIf="purchaseField.errors.server">{{purchaseField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Date</mat-label>
+                <input [max]="dateVaidate()" matInput [matDatepicker]="pickerdate" formControlName="date" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerdate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerdate></mat-datepicker>
+                <mat-hint>Ex: 2020-12-31</mat-hint>
+                <mat-error *ngIf="dateField.invalid">
+                  <span *ngIf="dateField.errors.required">Date is required</span>
+                  <span *ngIf="dateField.errors.server">{{dateField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Payment Type</mat-label>
+                <mat-select (selectionChange)="chequePaymentValidation()" formControlName="paymenttype" required>
+                  <mat-option *ngFor="let paymenttype of paymenttypes" [value]="paymenttype.id">{{paymenttype.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="paymenttypeField.invalid">
+                  <span *ngIf="paymenttypeField.errors.required">Select at lease one payment type</span>
+                  <span *ngIf="paymenttypeField.errors.server">{{paymenttypeField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Amount</mat-label>
+                <input type="number" matInput formControlName="amount" >
+                <mat-hint>Ex: 25</mat-hint>
+                <mat-error *ngIf="amountField.invalid">
+                  <span *ngIf="amountField.errors.server">{{amountField.errors.server.join(', ')}}</span>
+                  <span *ngIf="amountField.errors.min">Amount should be equal or greater than 0</span>
+                  <span *ngIf="amountField.errors.max">Amount should be equal or less than 100000000</span>
+                  <span *ngIf="amountField.errors.pattern">Amount is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="this.paymenttypeField.value == 2">
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Cheque Number</mat-label>
+                <input matInput formControlName="chequeno" required>
+                <mat-hint>Ex: 2277</mat-hint>
+                <mat-error *ngIf="chequenoField.invalid">
+                  <span *ngIf="chequenoField.errors.required">Cheque Number is required</span>
+                  <span *ngIf="chequenoField.errors.server">{{chequenoField.errors.server.join(', ')}}</span>
+                  <span *ngIf="chequenoField.errors.minlength">Cheque Number should has at least null characters. </span>
+                  <span *ngIf="chequenoField.errors.maxlength">Cheque Number can have a maximum of 255 characters. </span>
+                  <span *ngIf="chequenoField.errors.pattern">Cheque Number is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Cheque Bank</mat-label>
+                <input matInput formControlName="chequebank" required>
+                <mat-hint>Ex: BOC</mat-hint>
+                <mat-error *ngIf="chequebankField.invalid">
+                  <span *ngIf="chequebankField.errors.required">Cheque Bank is required</span>
+                  <span *ngIf="chequebankField.errors.server">{{chequebankField.errors.server.join(', ')}}</span>
+                  <span *ngIf="chequebankField.errors.minlength">Cheque Bank should has at least null characters. </span>
+                  <span *ngIf="chequebankField.errors.maxlength">Cheque Bank can have a maximum of 255 characters. </span>
+                  <span *ngIf="chequebankField.errors.pattern">Cheque Bank is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Cheque Branch</mat-label>
+                <input matInput formControlName="chequebranch" required>
+                <mat-hint>Ex: Galle BOC</mat-hint>
+                <mat-error *ngIf="chequebranchField.invalid">
+                  <span *ngIf="chequebranchField.errors.required">Cheque Branch is required</span>
+                  <span *ngIf="chequebranchField.errors.server">{{chequebranchField.errors.server.join(', ')}}</span>
+                  <span *ngIf="chequebranchField.errors.minlength">Cheque Branch should has at least null characters. </span>
+                  <span *ngIf="chequebranchField.errors.maxlength">Cheque Branch can have a maximum of 255 characters. </span>
+                  <span *ngIf="chequebranchField.errors.pattern">Cheque Branch is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Cheque Date</mat-label>
+                <input matInput [matDatepicker]="pickerchequedate" formControlName="chequedate" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerchequedate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerchequedate></mat-datepicker>
+                <mat-hint>Ex: 2020-12-31</mat-hint>
+                <mat-error *ngIf="chequedateField.invalid">
+                  <span *ngIf="chequedateField.errors.required">Cheque Date is required</span>
+                  <span *ngIf="chequedateField.errors.server">{{chequedateField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+            <mat-error *ngIf="descriptionField.invalid">
+              <span *ngIf="descriptionField.errors.server">{{descriptionField.errors.server.join(', ')}}</span>
+              <span *ngIf="descriptionField.errors.minlength">Description should has at least null characters. </span>
+              <span *ngIf="descriptionField.errors.maxlength">Description can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/supplierpayments" class="ml-0" mat-flat-button color="primary"><mat-icon>list</mat-icon> All Supplierpayments</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="reset"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="right">
+        <span class="text-warning">*</span> Required Fields
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

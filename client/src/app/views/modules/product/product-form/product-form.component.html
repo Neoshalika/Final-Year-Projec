@@ -1,0 +1,139 @@
+<app-no-privilege message="No privilege to add new product" *ngIf="!privilege.add"></app-no-privilege>
+<div *ngIf="privilege.add">
+  <app-page-header title="Product Form" [breadcrumbSegments]="['Products', 'Add New Product']"></app-page-header>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <mat-card>
+      <mat-card-content>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Category</mat-label>
+                <mat-select (selectionChange)="lodsubcat()" formControlName="productcategory" >
+                  <mat-option *ngFor="let productcategory of productcategories" [value]="productcategory.id">{{productcategory.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="productcategoryField.invalid">
+                  <span *ngIf="productcategoryField.errors.required">Category is required</span>
+                  <span *ngIf="productcategoryField.errors.server">{{productcategoryField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Sub Category</mat-label>
+                <mat-select formControlName="productsubcategory" >
+                  <mat-option *ngFor="let productsubcategory of productsubcategories" [value]="productsubcategory.id">{{productsubcategory.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="productsubcategoryField.invalid">
+                  <span *ngIf="productsubcategoryField.errors.required">Sub Category is required</span>
+                  <span *ngIf="productsubcategoryField.errors.server">{{productsubcategoryField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-hint>Ex: ABC</mat-hint>
+                <mat-error *ngIf="nameField.invalid">
+                  <span *ngIf="nameField.errors.required">Name is required</span>
+                  <span *ngIf="nameField.errors.server">{{nameField.errors.server.join(', ')}}</span>
+                  <span *ngIf="nameField.errors.minlength">Name should has at least null characters. </span>
+                  <span *ngIf="nameField.errors.maxlength">Name can have a maximum of 255 characters. </span>
+                  <span *ngIf="nameField.errors.pattern">Name is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Photo</mat-label>
+            <app-file-chooser placeholder="No choosed photos to show" [min]="0" [max]="1" [accept]="['image/*']" formControlName="photo"></app-file-chooser>
+            <mat-hint>Select any image/* file</mat-hint>
+            <mat-error *ngIf="photoField.invalid">
+              <span *ngIf="photoField.errors.server">{{photoField.errors.server.join(', ')}}</span>
+              <span *ngIf="photoField.errors.min">photo is required</span>
+              <span *ngIf="photoField.errors.max">Maximum allowed photo count is 1</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Quantity</mat-label>
+                <input type="number" matInput formControlName="qty" required>
+                <mat-hint>Ex: 30</mat-hint>
+                <mat-error *ngIf="qtyField.invalid">
+                  <span *ngIf="qtyField.errors.required">Quantity is required</span>
+                  <span *ngIf="qtyField.errors.server">{{qtyField.errors.server.join(', ')}}</span>
+                  <span *ngIf="qtyField.errors.minlength">Quantity should be equal or greater than -2147483648</span>
+                  <span *ngIf="qtyField.errors.maxlength">Quantity should be equal or less than 2147483647</span>
+                  <span *ngIf="qtyField.errors.pattern">Quantity is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Unit Price</mat-label>
+                <input type="number" matInput formControlName="unitprice" >
+                <mat-hint>Ex: 25</mat-hint>
+                <mat-error *ngIf="unitpriceField.invalid">
+                  <span *ngIf="unitpriceField.errors.server">{{unitpriceField.errors.server.join(', ')}}</span>
+                  <span *ngIf="unitpriceField.errors.min">Unit Price should be equal or greater than 0</span>
+                  <span *ngIf="unitpriceField.errors.max">Unit Price should be equal or less than 10000000</span>
+                  <span *ngIf="unitpriceField.errors.pattern">Unit Price is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Reorder Point Qty</mat-label>
+                <input type="number" matInput formControlName="rpqty" required>
+                <mat-hint>Ex: 5</mat-hint>
+                <mat-error *ngIf="rpqtyField.invalid">
+                  <span *ngIf="rpqtyField.errors.required">Reorder Point Qty is required</span>
+                  <span *ngIf="rpqtyField.errors.server">{{rpqtyField.errors.server.join(', ')}}</span>
+                  <span *ngIf="rpqtyField.errors.min">Reorder Point Qty should be equal or greater than 0</span>
+                  <span *ngIf="rpqtyField.errors.max">Reorder Point Qty should be equal or less than 10000000</span>
+                  <span *ngIf="rpqtyField.errors.pattern">Reorder Point Qty is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <h3 class="mb-0 mat-subheading-1 font-weight-light">Product Material</h3>
+          <app-productmaterial-sub-form [min]="0" [max]="0" formControlName="productmaterials"></app-productmaterial-sub-form>
+          <div class="error-box" *ngIf="productmaterialsField.invalid && !productmaterialsField.pristine">
+            <p *ngIf="productmaterialsField.errors.min">Should has at least 0 product material</p>
+            <p *ngIf="productmaterialsField.errors.max">Maximum allowed only 0 Product Material</p>
+                <span *ngIf="productmaterialsField.errors.server">{{productmaterialsField.errors.server.join(', ')}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+            <mat-hint>Ex:  This is Description</mat-hint>
+            <mat-error *ngIf="descriptionField.invalid">
+              <span *ngIf="descriptionField.errors.server">{{descriptionField.errors.server.join(', ')}}</span>
+              <span *ngIf="descriptionField.errors.minlength">Description should has at least null characters. </span>
+              <span *ngIf="descriptionField.errors.maxlength">Description can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/products" class="ml-0" mat-flat-button color="primary"><mat-icon>list</mat-icon> All Products</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="reset"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="right">
+        <span class="text-warning">*</span> Required Fields
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

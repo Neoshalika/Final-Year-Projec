@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="supplier" to-string-ts="supplier.code + '-' + supplier.nametitle.name + ' ' + supplier.name" to-string-java="supplier.getCode() + #quat;-#quat; + supplier.getNametitle.getName() + #quat; #quat; + supplier.getName()">
+    <code length="8" prefix="SM" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property basic="yes" required="yes" width="3" name="nametitle" label="Title" referenced-from="nametitle" service-method="getAll" to-string-java="nametitle.getName()" to-string-ts="nametitle.name"/>
+        <varchar-property width="6" pattern="^[a-zA-Z ]{3,}$" basic="yes" exist-on-table="yes" searchable="yes" required="yes"  name="name" label="Name" example="Kithsiri"/>
+        <reference-property width="3" name="supplierstatus" label="Supplierstatus" exist-on-table="yes" referenced-from="supplierstatus" service-method="getAll" live="no" insertable="no" required="yes" default-value="1" to-string-ts="supplierstatus.name" to-string-java="supplierstatus.getName()"/>
+    </group>
+    <group>
+        <varchar-property pattern="^[a-zA-Z0-9]{1,}[@][a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$" basic="yes" width="6" name="email" exist-on-table="yes" searchable="yes" unique="yes" label="Email Address" example="user@gmail.com" min-length="5"/>
+        <varchar-property width="6" name="fax" unique="yes" label="Fax Number" example="0776545677" pattern="^[0][0-9]{9}$" />
+    </group>
+
+    <group>
+        <char-property basic="yes" name="contact1" label="Primary contact" required="yes" exist-on-table="yes" searchable="yes" width="6" example="0789456123" pattern="^([0][0-9]{9})$" size="10"/>
+        <char-property name="contact2" label="Alternate contact" width="6"  example="0789456123" pattern="^([0][0-9]{9})$" size="10"/>
+    </group>
+
+    <text-property name="address" label="Address" example="123, Colombo Road, Gampaha" min-length="4" required="yes"/>
+
+    <multiple-reference-property name="materialcategory" label="Supplier Material Categoryes" to-string-java="materialcategory.getName()" to-string-ts="materialcategory.name" service-method="getAll" referenced-from="materialcategory" min-count="1"/>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+</regular-module>
+

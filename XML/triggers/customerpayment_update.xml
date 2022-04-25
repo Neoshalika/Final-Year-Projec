@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="customerpayment_update" event="AFTER_UPDATE" table="customerpayment">
+
+    DECLARE deference decimal(10,2) DEFAULT 0;
+
+    IF OLD.customerorder_id != NEW.customerorder_id THEN
+
+        update customerorder set balance = balance + OLD.amount where id = OLD.customerorder_id;
+
+        IF NEW.paymentstatus_id != 3 THEN
+            update customerorder set balance = balance - NEW.amount where id = NEW.customerorder_id;
+        END IF;
+
+    END IF;
+
+    IF OLD.customerorder_id = NEW.customerorder_id THEN
+
+        IF OLD.amount != NEW.amount THEN
+            SET deference = OLD.amount - NEW.amount;
+            update customerorder set balance = balance + deference where id = NEW.customerorder_id;
+        END IF;
+
+        IF OLD.paymentstatus_id = 2 AND NEW.paymentstatus_id = 3 THEN
+            update customerorder set balance = balance + NEW.amount where id = NEW.customerorder_id;
+        END IF;
+
+        IF OLD.paymentstatus_id = 3 AND NEW.paymentstatus_id = 2 THEN
+            update customerorder set balance = balance - NEW.amount where id = NEW.customerorder_id;
+        END IF;
+
+    END IF;
+</trigger>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="prmaterialreturnmaterial_update" event="AFTER_UPDATE" table="prmaterialreturnmaterial">
+    DECLARE deference decimal(13,3) DEFAULT 0;
+
+    IF OLD.material_id = NEW.material_id THEN
+        IF OLD.qty != NEW.qty THEN
+            SET deference = NEW.qty - OLD.qty;
+            update material set qty = qty + deference where id = NEW.material_id;
+        END IF;
+    END IF;
+
+    IF OLD.material_id != NEW.material_id THEN
+        update material set qty = qty - OLD.qty where id = OLD.material_id;
+        update material set qty = qty + NEW.qty where id = NEW.material_id;
+    END IF;
+
+</trigger>
+
+

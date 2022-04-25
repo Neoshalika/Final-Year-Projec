@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="prmaterialreturn" to-string-ts="prmaterialreturn.code" to-string-java="prmaterialreturn.getCode()">
+    <code length="8" prefix="PR" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property basic="yes" width="6" exist-on-table="yes" searchable="yes" name="prorder" label="Production Order" referenced-from="prorder" service-method="getAllBasic" to-string-ts="prorder.code" to-string-java="purchase.getCode()"/>
+        <date-property basic="yes" width="6" exist-on-table="yes" required="yes"  name="date" label="Date" example="2000-12-31"/>
+    </group>
+
+    <text-property name="reason" label="Reason"  required="yes" example=" This is Discription"/>
+
+    <sub-module label="Production Material Return Material" name="prmaterialreturnmaterial" to-string-ts="prmaterialreturnmaterial.material.name" to-string-java="prmaterialreturnmaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="100000"/>
+    </sub-module>
+
+</regular-module>
+

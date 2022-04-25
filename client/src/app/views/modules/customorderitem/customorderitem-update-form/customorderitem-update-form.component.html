@@ -1,0 +1,87 @@
+<app-no-privilege *ngIf="!privilege.update" message="No privilege to change customorderitem details"></app-no-privilege>
+<div *ngIf="this.customorderitem && privilege.update">
+  <app-page-header
+    title="Customorderitem Change Form of {{ customorderitem.code }}"
+    [breadcrumbSegments]="['Customorderitems', 'Show All Customorderitems', 'Change Details of ' + customorderitem.code]"
+  ></app-page-header>
+  <form [formGroup]="form" (ngSubmit)="submit()" #ngForm="ngForm">
+    <mat-card>
+      <mat-card-content>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Order</mat-label>
+                <mat-select formControlName="customerorder" required>
+                  <mat-option *ngFor="let customerorder of customerorders" [value]="customerorder.id">{{customerorder.code}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="customerorderField.invalid">
+                  <span *ngIf="customerorderField.errors.required">Select at lease one order</span>
+                  <span *ngIf="customerorderField.errors.server">{{customerorderField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Quantity</mat-label>
+                <input type="number" matInput formControlName="qty" >
+                <mat-hint>Ex: 25</mat-hint>
+                <mat-error *ngIf="qtyField.invalid">
+                  <span *ngIf="qtyField.errors.server">{{qtyField.errors.server.join(', ')}}</span>
+                  <span *ngIf="qtyField.errors.min">Quantity should be equal or greater than 0</span>
+                  <span *ngIf="qtyField.errors.max">Quantity should be equal or less than 1000000</span>
+                  <span *ngIf="qtyField.errors.pattern">Quantity is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Unit Price</mat-label>
+                <input type="number" matInput formControlName="unitprice" >
+                <mat-hint>Ex: 25</mat-hint>
+                <mat-error *ngIf="unitpriceField.invalid">
+                  <span *ngIf="unitpriceField.errors.server">{{unitpriceField.errors.server.join(', ')}}</span>
+                  <span *ngIf="unitpriceField.errors.min">Unit Price should be equal or greater than 0</span>
+                  <span *ngIf="unitpriceField.errors.max">Unit Price should be equal or less than 1000000</span>
+                  <span *ngIf="unitpriceField.errors.pattern">Unit Price is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" required>
+            <mat-hint>Ex: New Item</mat-hint>
+            <mat-error *ngIf="nameField.invalid">
+              <span *ngIf="nameField.errors.required">Name is required</span>
+              <span *ngIf="nameField.errors.server">{{nameField.errors.server.join(', ')}}</span>
+              <span *ngIf="nameField.errors.minlength">Name should has at least null characters. </span>
+              <span *ngIf="nameField.errors.maxlength">Name can have a maximum of 255 characters. </span>
+              <span *ngIf="nameField.errors.pattern">Name is invalid.</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Document</mat-label>
+            <app-file-chooser placeholder="No choosed documents to show" [min]="0" [max]="1" [accept]="['application/pdf']" formControlName="document"></app-file-chooser>
+            <mat-hint>Select any application/pdf file</mat-hint>
+            <mat-error *ngIf="documentField.invalid">
+              <span *ngIf="documentField.errors.server">{{documentField.errors.server.join(', ')}}</span>
+              <span *ngIf="documentField.errors.min">document is required</span>
+              <span *ngIf="documentField.errors.max">Maximum allowed document count is 1</span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/customorderitems" class="ml-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Customorderitems</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="button" (click)="discardChanges()"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="supplierrefund" to-string-ts="supplierrefund.code" to-string-java="supplierrefund.getCode()">
+    <code length="8" prefix="SR" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property width="4" name="paymenttype" label="Payment Type" referenced-from="paymenttype" service-method="getAll" live="no" required="yes" to-string-ts="paymenttype.name" to-string-java="paymenttype.getName()"/>
+        <reference-property basic="yes" exist-on-table="yes" width="4" name="purchase" label="Purchase" referenced-from="purchase" service-method="getAllBasic" required="yes" to-string-ts="purchase.code" to-string-java="purchase.getCode()"/>
+        <reference-property width="4" name="paymentstatus" label="Status" referenced-from="paymentstatus" service-method="getAll" live="no" insertable="no" required="yes" default-value="1" to-string-ts="paymentstatus.name" to-string-java="paymentstatus.getName()"/>
+    </group>
+
+    <group>
+        <date-property  width="6" name="date" label="Date" example="2020-12-31" required="yes" exist-on-table="yes"/>
+        <decimal-property  width="6" required="yes" name="amount" label="Amount" example="25" precision="10" exist-on-table="yes" searchable="yes" scale="2" min="0" max="1000000000"/>
+    </group>
+
+    <group>
+        <varchar-property pattern="^[0-9]{5,}$" width="3" basic="yes" exist-on-table="yes" searchable="yes" required="yes" name="chequeno" label="Cheque Number" example="2277"/>
+        <varchar-property pattern="^[a-zA-Z ]{3,}$" width="3" basic="yes" exist-on-table="yes" required="yes" name="chequebank" label="Cheque Bank" example="BOC"/>
+        <varchar-property width="3" required="yes" pattern="^[a-zA-Z ]{3,}$" name="chequebranch" label="Cheque Branch" example="Galle BOC"/>
+        <date-property width="3" name="chequedate" label="Cheque Date" example="2020-12-31" required="yes" />
+    </group>
+
+    <sub-module label="Supplier Refund Material" name="supplierrefundmaterial" to-string-ts="supplierrefundmaterial.material.name" to-string-java="supplierrefundmaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="1000000000"/>
+        <decimal-property name="unitprice" label="Unit Price" example="Rs.25.00" precision="10" scale="2" min="0" max="1000000000"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+
+
+</regular-module>
+
+

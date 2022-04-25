@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="supplierreturn" to-string-ts="supplierreturn.code" to-string-java="supplierreturn.getCode()">
+    <code length="8" prefix="EM" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property width="6" basic="yes" exist-on-table="yes" name="purchase" searchable="yes" label="Purchase" referenced-from="purchase" service-method="getAllBasic" to-string-ts="purchase.code" to-string-java="purchase.getCode()"/>
+        <reference-property width="6" exist-on-table="yes" searchable="yes" name="supplierreturnstatus" label="Status" referenced-from="supplierreturnstatus" service-method="getAll" live="no" to-string-ts="supplierreturnstatus.name" insertable="no" default-value="1" to-string-java="supplierreturnstatus.getName()"/>
+    </group>
+
+    <group>
+        <date-property exist-on-table="yes"  width="6" required="yes"  name="doreturned" label="Date Of Returned" example="2000-12-31"/>
+        <date-property exist-on-table="yes" width="6" name="dorecived" label="Date Of Recived" insertable="no"  example="2000-12-31"/>
+    </group>
+    <text-property  name="reason" label="Reason" example="Reason ABC"/>
+
+
+    <sub-module label="Supplier Return Material" name="supplierreturnmaterial" to-string-ts="supplierreturnmaterial.material.name" to-string-java="supplierreturnmaterial.material.getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="100000000"/>
+    </sub-module>
+
+</regular-module>
+

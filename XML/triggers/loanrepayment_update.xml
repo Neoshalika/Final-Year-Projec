@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="loanrepayment_update" event="AFTER_UPDATE" table="loanrepayment">
+    DECLARE deference decimal(10,2) DEFAULT 0;
+
+    IF OLD.loan_id != NEW.loan_id THEN
+
+        update loan set balance = balance + OLD.amount where id = OLD.loan_id;
+
+        IF NEW.paymentstatus_id != 3 THEN
+            update loan set balance = balance - NEW.amount where id = NEW.loan_id;
+        END IF;
+
+    END IF;
+
+    IF OLD.loan_id = NEW.loan_id THEN
+
+        IF OLD.amount != NEW.amount THEN
+            SET deference = OLD.amount - NEW.amount;
+            update loan set balance = balance + deference where id = NEW.loan_id;
+        END IF;
+
+        IF OLD.paymentstatus_id = 2 AND NEW.paymentstatus_id = 3 THEN
+            update loan set balance = balance + NEW.amount where id = NEW.loan_id;
+        END IF;
+
+        IF OLD.paymentstatus_id = 3 AND NEW.paymentstatus_id = 2 THEN
+            update loan set balance = balance - NEW.amount where id = NEW.loan_id;
+        END IF;
+
+    END IF;
+
+</trigger>
+
+

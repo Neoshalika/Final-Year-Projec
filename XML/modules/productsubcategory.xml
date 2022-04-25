@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="productsubcategory" to-string-ts="productsubcategory.code + '-' + productsubcategory.name" to-string-java="productsubcategory.getCode() + #quat; #quat; + productsubcategory.getName()">
+    <code length="8" prefix="PS" searchable="yes" exist-on-table="yes"/>
+
+    <reference-property name="productcategory" required="yes" searchable="yes" label="Product Category" referenced-from="productcategory" service-method="getAll" live="no" exist-on-table="yes" to-string-ts="productcategory.name" to-string-java="productcategory.getName()"/>
+    <varchar-property pattern="^[a-zA-Z ]{3,}$" name="name" label="Name" example="Bed" required="yes"  min-length="2" basic="yes" exist-on-table="yes" />
+
+</regular-module>
+
+

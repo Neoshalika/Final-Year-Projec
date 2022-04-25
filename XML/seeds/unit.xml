@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE seed SYSTEM "./../dtd/seed.dtd">
+<seed name="unit" to-string="{name}">
+    <properties>
+        <varchar-property name="name" size="15"/>
+    </properties>
+    <values>
+        <value>
+            <data>Foot</data>
+        </value>
+        <value>
+            <data>Inch</data>
+        </value>
+        <value>
+            <data>Bottle</data>
+        </value>
+        <value>
+            <data>Sheet</data>
+        </value>
+        <value>
+            <data>Gram</data>
+        </value>
+        <value>
+            <data>Roll</data>
+        </value>
+        <value>
+            <data>Meter</data>
+        </value>
+    </values>
+</seed>

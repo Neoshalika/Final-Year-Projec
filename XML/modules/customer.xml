@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="customer" to-string-ts="customer.code + '-' + customer.nametitle.name + ' ' + customer.name" to-string-java="customer.getCode() + #quat;-#quat; + customer.getNametitle.getName() + #quat; #quat; + customer.getCallingname()">
+    <code length="8" prefix="CU" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property basic="yes" required="yes" width="4" name="nametitle" exist-on-table="yes" label="Title" referenced-from="nametitle" service-method="getAll" live="no" to-string-java="nametitle.getName()" to-string-ts="nametitle.name"/>
+        <varchar-property basic="yes" exist-on-table="yes" searchable="yes" pattern="^[a-zA-Z ]{3,}$" required="yes" width="8" name="name" label="Name" example="Kithsiri"/>
+    </group>
+
+    <group>
+        <char-property name="primarycontact" label="Primary contact" required="yes" exist-on-table="yes" searchable="yes" width="6" example="0789456123" pattern="^[0][0-9]{9}$" size="10"/>
+        <char-property name="alternatecontact" label="Alternate contact" width="6" exist-on-table="yes" example="0789456123" pattern="^[0][0-9]{9}$" size="10"/>
+    </group>
+
+    <group>
+        <varchar-property pattern="^[a-zA-Z0-9]{1,}[@][a-zA-Z0-9]{1,}[.][a-zA-Z0-9]{1,}$" width="6" name="email" unique="yes" label="Email Address" example="user@gmail.com" min-length="5"/>
+        <varchar-property width="6" name="fax" unique="yes" label="Fax Number" example="12344321" pattern="^[0][0-9]{9}$"/>
+    </group>
+
+    <text-property name="address" label="Address" example="123, Colombo Road, Gampaha" min-length="4" required="yes"/>
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+
+</regular-module>
+
+

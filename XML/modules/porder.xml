@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="porder" to-string-ts="porder.code" to-string-java="porder.getCode()">
+    <code length="8" prefix="PO" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property exist-on-table="yes" searchable="yes" basic="yes" name="supplier" label="Supplier" referenced-from="supplier" service-method="getAllBasic" required="yes" to-string-ts="supplier.nametitle.name+ ' ' + supplier.name" to-string-java="supplier.getNametitle.getName() + #quat; #quat; +supplier.getName()"/>
+    </group>
+    <group>
+        <date-property basic="yes" exist-on-table="yes"  name="doordered" label="Date of Ordered" example="2021-02-31" required="yes" width="4" />
+        <date-property basic="yes" exist-on-table="yes" name="dorequired" label="Date of Required" example="2021-04-31" required="yes" width="4" />
+        <date-property name="dorecived" label="Date of Recived" example="2021-03-31"  width="4" insertable="no" />
+    </group>
+
+    <sub-module label="Porder Material" name="pordermaterial" to-string-ts="pordermaterial.material.name" to-string-java="pordermaterial.getMaterial().getName()">
+        <reference-property name="material" label="Material" to-string-ts="material.materialsubcategory.name + '-' + material.name" to-string-java="material.materialsubcategory.getName() + #quat; #quat; + material.getName()" service-method="getAllBasic" referenced-from="material" required="yes"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="100000000"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Description"/>
+
+
+</regular-module>
+
+

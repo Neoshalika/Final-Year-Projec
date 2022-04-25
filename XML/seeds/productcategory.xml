@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE seed SYSTEM "./../dtd/seed.dtd">
+<seed name="productcategory" to-string="{name}">
+    <properties>
+        <varchar-property name="name" size="20"/>
+    </properties>
+    <values>
+        <value><data>Bedroom</data></value>
+        <value><data>Living Room</data></value>
+        <value><data>Dining Room</data></value>
+        <value><data>Office</data></value>
+    </values>
+</seed>

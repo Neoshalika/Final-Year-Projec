@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="customorderitem" to-string-ts="customorderitem.code" to-string-java="customorderitem.getCode()">
+    <code length="8" prefix="CI" searchable="yes" exist-on-table="yes"/>
+
+   <group>
+       <reference-property searchable="yes" basic="yes" required="yes" width="4" name="customerorder" exist-on-table="yes" label="Order" referenced-from="customerorder" service-method="getAllBasic" to-string-java="customerorder.getCode()" to-string-ts="customerorder.code"/>
+       <decimal-property exist-on-table="yes" width="4" name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="1000000"/>
+       <decimal-property width="4" name="unitprice" label="Unit Price" example="25" precision="13" scale="3" min="0" max="1000000"/>
+   </group>
+
+    <varchar-property exist-on-table="yes" searchable="yes" required="yes" pattern="^[a-zA-Z ]{3,}$" name="name" label="Name" example="New Item"/>
+
+    <file-property name="document" label="Document" accept="application/pdf"/>
+
+
+</regular-module>
+
+

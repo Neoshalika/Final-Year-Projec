@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE seed SYSTEM "./../dtd/seed.dtd">
+<seed name="materialcategory" to-string="{name}">
+    <properties>
+        <varchar-property name="name" size="25"/>
+    </properties>
+    <values>
+        <value><data>Wood</data></value>
+        <value><data>Glue</data></value>
+        <value><data>Sand Paper</data></value>
+        <value><data>Glass</data></value>
+    </values>
+</seed>

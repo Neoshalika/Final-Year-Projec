@@ -1,0 +1,102 @@
+<app-no-privilege *ngIf="!privilege.showOne" message="No privilege to show more details of a loan"></app-no-privilege>
+<app-object-not-found *ngIf="loaded && !loan" message="Loan Not Found"></app-object-not-found>
+<app-loading *ngIf="!loaded"></app-loading>
+<div *ngIf="loan && privilege.showOne">
+  <app-page-header
+    title="Loan Detail Page of {{ loan.code }}"
+    [breadcrumbSegments]="['Loans', 'Show All Loans', 'Details of ' + loan.code]"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Created Date</th>
+                <td>{{loan.tocreation | date}}</td>
+              </tr>
+              <tr>
+                <th>Created Time</th>
+                <td>{{loan.tocreation | date: 'shortTime': '+0530'}}</td>
+              </tr>
+              <tr>
+                <th>Creator</th>
+                <td>{{getUserDisplayName(loan.creator)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-8">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Code</th>
+                <td>{{loan.code}}</td>
+              </tr>
+              <tr>
+                <th>Employee</th>
+                <td>{{loan.employee.code + '-' + loan.employee.nametitle.name + ' ' + loan.employee.callingname}}</td>
+              </tr>
+              <tr>
+                <th>Payment Type</th>
+                <td>{{loan.paymenttype.name}}</td>
+              </tr>
+              <tr>
+                <th>Payment Status</th>
+                <td>{{loan.paymentstatus.name}}</td>
+              </tr>
+              <tr>
+                <th>Date</th>
+                <td>{{loan.date | date: 'fullDate'}}</td>
+              </tr>
+              <tr>
+                <th>Amount</th>
+                <td>{{loan.amount | currency: 'Rs.'}}</td>
+              </tr>
+              <tr *ngIf="loan.monthlyinstallment">
+                <th>Monthly Installment</th>
+                <td>{{loan.monthlyinstallment | currency: 'Rs.'}}</td>
+              </tr>
+              <tr *ngIf="loan.balance">
+                <th>Balance</th>
+                <td>{{loan.balance | currency: 'Rs.'}}</td>
+              </tr>
+              <tr>
+                <th>Cheque Number</th>
+                <td>{{loan.chequeno}}</td>
+              </tr>
+              <tr>
+                <th>Cheque Bank</th>
+                <td>{{loan.chequebank}}</td>
+              </tr>
+              <tr>
+                <th>Cheque Branch</th>
+                <td>{{loan.chequebranch}}</td>
+              </tr>
+              <tr>
+                <th>Cheque Date</th>
+                <td>{{loan.chequedate | date: 'fullDate'}}</td>
+              </tr>
+              <tr *ngIf="loan.reason">
+                <th>Reason</th>
+                <td [innerHTML]="loan.reason | nl2br"></td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="d-flex mt-5">
+    <button *ngIf="privilege.delete" (click)="delete()" class="ml-0" mat-raised-button color="warn"><mat-icon>delete</mat-icon> Delete</button>
+    <span class="spacer"></span>
+    <button *ngIf="privilege.update" routerLink="/loans/edit/{{loan.id}}" mat-raised-button color="accent"><mat-icon>edit</mat-icon> Change</button>
+    <button *ngIf="privilege.add" routerLink="/loans/add" mat-stroked-button><mat-icon>add</mat-icon> New Loan</button>
+    <button *ngIf="privilege.showAll" routerLink="/loans" class="mr-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Loans</button>
+  </div>
+</div>

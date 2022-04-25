@@ -1,0 +1,143 @@
+<app-no-privilege *ngIf="!privilege.update" message="No privilege to change prorder details"></app-no-privilege>
+<div *ngIf="this.prorder && privilege.update">
+  <app-page-header
+    title="Prorder Change Form of {{ prorder.code }}"
+    [breadcrumbSegments]="['Prorders', 'Show All Prorders', 'Change Details of ' + prorder.code]"
+  ></app-page-header>
+  <form [formGroup]="form" (ngSubmit)="submit()" #ngForm="ngForm">
+    <mat-card>
+      <mat-card-content>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Customer Order Item</mat-label>
+                <mat-select formControlName="customorderitem" >
+                  <mat-option *ngFor="let customorderitem of customorderitems" [value]="customorderitem.id">{{customorderitem.code}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="customorderitemField.invalid">
+                  <span *ngIf="customorderitemField.errors.server">{{customorderitemField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Product</mat-label>
+                <mat-select formControlName="product" >
+                  <mat-option *ngFor="let product of products" [value]="product.id">{{product.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="productField.invalid">
+                  <span *ngIf="productField.errors.server">{{productField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Quantity</mat-label>
+                <input type="number" matInput formControlName="qty" >
+                <mat-hint>Ex: 25</mat-hint>
+                <mat-error *ngIf="qtyField.invalid">
+                  <span *ngIf="qtyField.errors.server">{{qtyField.errors.server.join(', ')}}</span>
+                  <span *ngIf="qtyField.errors.minlength">Quantity should be equal or greater than 0</span>
+                  <span *ngIf="qtyField.errors.maxlength">Quantity should be equal or less than 1000000</span>
+                  <span *ngIf="qtyField.errors.pattern">Quantity is invalid.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Date of Start</mat-label>
+                <input matInput [matDatepicker]="pickerdostart" formControlName="dostart" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerdostart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerdostart></mat-datepicker>
+                <mat-hint>Ex: 2021-02-31</mat-hint>
+                <mat-error *ngIf="dostartField.invalid">
+                  <span *ngIf="dostartField.errors.required">Date of Start is required</span>
+                  <span *ngIf="dostartField.errors.server">{{dostartField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Deadline</mat-label>
+                <input matInput [matDatepicker]="pickerdeadline" formControlName="deadline" >
+                <mat-datepicker-toggle matSuffix [for]="pickerdeadline"></mat-datepicker-toggle>
+                <mat-datepicker #pickerdeadline></mat-datepicker>
+                <mat-hint>Ex: 2021-03-31</mat-hint>
+                <mat-error *ngIf="deadlineField.invalid">
+                  <span *ngIf="deadlineField.errors.server">{{deadlineField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Date of End</mat-label>
+                <input [min]="today" [max]="today" matInput [matDatepicker]="pickerdoend" formControlName="doend" >
+                <mat-datepicker-toggle matSuffix [for]="pickerdoend"></mat-datepicker-toggle>
+                <mat-datepicker #pickerdoend></mat-datepicker>
+                <mat-hint>Ex: 2021-03-20</mat-hint>
+                <mat-error *ngIf="doendField.invalid">
+                  <span *ngIf="doendField.errors.server">{{doendField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Status</mat-label>
+                <mat-select formControlName="prorderstatus" >
+                  <mat-option *ngFor="let prorderstatus of prorderstatuses" [value]="prorderstatus.id">{{prorderstatus.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="prorderstatusField.invalid">
+                  <span *ngIf="prorderstatusField.errors.server">{{prorderstatusField.errors.server.join(', ')}}</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <h3 class="mb-0 mat-subheading-1 font-weight-light">Production Order Material</h3>
+          <app-prordermaterial-update-sub-form [min]="0" [max]="0" formControlName="prordermaterials"></app-prordermaterial-update-sub-form>
+          <div class="error-box" *ngIf="prordermaterialsField.invalid && !prordermaterialsField.pristine">
+            <p *ngIf="prordermaterialsField.errors.min">Should has at least 0 production order material</p>
+            <p *ngIf="prordermaterialsField.errors.max">Maximum allowed only 0 Production Order Material</p>
+                <span *ngIf="prordermaterialsField.errors.server">{{prordermaterialsField.errors.server.join(', ')}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <h3 class="mb-0 mat-subheading-1 font-weight-light">Production Order Employee</h3>
+          <app-prorderemployee-update-sub-form [min]="0" [max]="0" formControlName="prorderemployees"></app-prorderemployee-update-sub-form>
+          <div class="error-box" *ngIf="prorderemployeesField.invalid && !prorderemployeesField.pristine">
+            <p *ngIf="prorderemployeesField.errors.min">Should has at least 0 production order employee</p>
+            <p *ngIf="prorderemployeesField.errors.max">Maximum allowed only 0 Production Order Employee</p>
+                <span *ngIf="prorderemployeesField.errors.server">{{prorderemployeesField.errors.server.join(', ')}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" ></textarea>
+            <mat-error *ngIf="descriptionField.invalid">
+              <span *ngIf="descriptionField.errors.server">{{descriptionField.errors.server.join(', ')}}</span>
+              <span *ngIf="descriptionField.errors.minlength">Description should has at least null characters. </span>
+              <span *ngIf="descriptionField.errors.maxlength">Description can have a maximum of 65535 characters. </span>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-right mt-5 d-flex">
+          <button *ngIf="privilege.showAll" routerLink="/prorders" class="ml-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Prorders</button>
+          <span class="spacer"></span>
+          <button mat-stroked-button type="button" (click)="discardChanges()"><mat-icon>refresh</mat-icon> Clear</button>
+          <button class="mr-0" mat-flat-button color="primary" type="submit"><mat-icon>save</mat-icon> Save</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
+</div>

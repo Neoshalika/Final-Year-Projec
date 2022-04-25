@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="supplierreturn_update" event="AFTER_UPDATE" table="supplierreturn">
+
+<!--    IF NEW.supplierreturn_id != OLD.servicestatus_id THEN-->
+<!--        IF NEW.supplierreturn_id = 1 THEN-->
+<!--            update material set qty = qty - (select qty from supplierreturnmaterial where supplierreturn_id=OLD.id)  where id in (-->
+<!--                select material_id-->
+<!--                from supplierreturnmaterial-->
+<!--                where supplierreturn_id=OLD.id-->
+<!--            );-->
+<!--        END IF;-->
+
+<!--        IF NEW.supplierreturn_id = 2 THEN-->
+
+<!--        END IF;-->
+<!--    END IF;-->
+
+<!--    IF NEW.supplierreturn_id = 1 or NEW.servicestatus_id = 3 THEN-->
+<!--        update procurementitem-->
+<!--            set procurementitemstatus_id = IF(procurementitemstatus_id=4, 2, 3)-->
+<!--        where id in (-->
+<!--            select procurementitem_id-->
+<!--            from serviceprocurementitem-->
+<!--            where service_id=OLD.id-->
+<!--        );-->
+<!--    END IF;-->
+
+</trigger>
+
+

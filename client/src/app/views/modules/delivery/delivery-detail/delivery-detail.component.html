@@ -1,0 +1,94 @@
+<app-no-privilege *ngIf="!privilege.showOne" message="No privilege to show more details of a delivery"></app-no-privilege>
+<app-object-not-found *ngIf="loaded && !delivery" message="Delivery Not Found"></app-object-not-found>
+<app-loading *ngIf="!loaded"></app-loading>
+<div *ngIf="delivery && privilege.showOne">
+  <app-page-header
+    title="Delivery Detail Page of {{ delivery.code }}"
+    [breadcrumbSegments]="['Deliveries', 'Show All Deliveries', 'Details of ' + delivery.code]"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Created Date</th>
+                <td>{{delivery.tocreation | date}}</td>
+              </tr>
+              <tr>
+                <th>Created Time</th>
+                <td>{{delivery.tocreation | date: 'shortTime': '+0530'}}</td>
+              </tr>
+              <tr>
+                <th>Creator</th>
+                <td>{{getUserDisplayName(delivery.creator)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-8">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Code</th>
+                <td>{{delivery.code}}</td>
+              </tr>
+              <tr>
+                <th>Customer Order</th>
+                <td>{{delivery.customerorder.code}}</td>
+              </tr>
+              <tr>
+                <th>Vehicle Number</th>
+                <td>{{delivery.vehicle.no}}</td>
+              </tr>
+              <tr>
+                <th>Contact Name</th>
+                <td>{{delivery.contactname}}</td>
+              </tr>
+              <tr>
+                <th>Contact Number</th>
+                <td>{{delivery.contactno}}</td>
+              </tr>
+              <tr *ngIf="delivery.permitno">
+                <th>Permit Number</th>
+                <td>{{delivery.permitno}}</td>
+              </tr>
+              <tr *ngIf="delivery.distance">
+                <th>Distance</th>
+                <td>{{delivery.distance}}</td>
+              </tr>
+              <tr>
+                <th>Delivery Status</th>
+                <td>{{delivery.deliverystatus.name}}</td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td [innerHTML]="delivery.address | nl2br"></td>
+              </tr>
+              <tr>
+                <th>Delivery Employee</th>
+                <td><span class="mat-body badge badge-secondary d-inline-block mr-2 mb-2 font-weight-light py-1 px-3" *ngFor="let employee of delivery.employeeList">{{employee.code + '-' + employee.nametitle.name + ' ' + employee.callingname}}</span></td>
+              </tr>
+              <tr *ngIf="delivery.description">
+                <th>Description</th>
+                <td [innerHTML]="delivery.description | nl2br"></td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="d-flex mt-5">
+    <button *ngIf="privilege.delete" (click)="delete()" class="ml-0" mat-raised-button color="warn"><mat-icon>delete</mat-icon> Delete</button>
+    <span class="spacer"></span>
+    <button *ngIf="privilege.update" routerLink="/deliveries/edit/{{delivery.id}}" mat-raised-button color="accent"><mat-icon>edit</mat-icon> Change</button>
+    <button *ngIf="privilege.add" routerLink="/deliveries/add" mat-stroked-button><mat-icon>add</mat-icon> New Delivery</button>
+    <button *ngIf="privilege.showAll" routerLink="/deliveries" class="mr-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Deliveries</button>
+  </div>
+</div>

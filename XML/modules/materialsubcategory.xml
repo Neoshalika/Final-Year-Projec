@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="materialsubcategory" to-string-ts="materialsubcategory.code + '-' + materialsubcategory.name" to-string-java="materialsubcategory.getCode() + #quat; #quat; + materialsubcategory.name()">
+    <code length="8" prefix="MS" searchable="yes" exist-on-table="yes"/>
+    <reference-property required="yes" searchable="yes"  name="materialcategory" label="Material Sub Category" basic="yes" referenced-from="materialcategory" exist-on-table="yes" service-method="getAll" live="no" to-string-ts="materialcategory.name" to-string-java="materialcategory.getName()"/>
+    <varchar-property pattern="^[a-zA-Z ]{3,}$" searchable="yes" name="name" label="Name" example="thekka" required="yes"  min-length="2" basic="yes" exist-on-table="yes" />
+</regular-module>
+
+

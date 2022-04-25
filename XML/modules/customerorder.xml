@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="customerorder" to-string-ts="customerorder.code" to-string-java="customerorder.getCode()">
+    <code length="8" prefix="CO" searchable="yes" exist-on-table="yes"/>
+
+   <group>
+       <reference-property width="6" searchable="yes" exist-on-table="yes" basic="yes" name="customer" label="Customer" referenced-from="customer" service-method="getAllBasic" required="yes" to-string-ts="customer.nametitle.name + ' ' + customer.name" to-string-java="customer.getNametitle.getName() + #quat; #quat; + customer.name()"/>
+       <reference-property required="yes" width="6" name="customerorderstatus" label="Order Status" referenced-from="customerorderstatus" service-method="getAll" live="no" to-string-ts="customerorderstatus.name" insertable="no" default-value="1" to-string-java="customerorderstatus.getName()"/>
+   </group>
+
+    <group>
+        <date-property  exist-on-table="yes" basic="yes" name="doordered" label="Date of Ordered" example="2021-02-31" required="yes" width="6" />
+        <date-property name="dorequired" label="Date of Required" example="2021-02-31" required="yes" exist-on-table="yes" width="6" />
+    </group>
+
+    <group>
+        <date-property name="dofinished" label="Date of Finished" example="2021-03-31"  width="6" insertable="no" />
+        <date-property name="dohandovered" label="Date of Hand Overed" example="2021-03-31"  width="6" insertable="no" />
+    </group>
+
+    <group>
+        <decimal-property width="3" name="discount" label="Discount" example="250" precision="10" scale="2" min="0" max="1000000"/>
+        <decimal-property width="3" name="deliverycost" label="Delivery Cost" example="25" precision="10" scale="2" min="0" max="1000000"/>
+        <decimal-property exist-on-table="yes" required="yes" width="3" name="total" label="Total" example="25000" precision="10" scale="2" min="0" max="1000000"/>
+        <decimal-property exist-on-table="yes" required="yes" width="3" name="balance" label="Balance" example="20000" precision="10" scale="2" min="0" max="1000000"/>
+    </group>
+
+    <sub-module label="Customer Order Product" name="customerorderproduct" to-string-ts="customerorderproduct.product.name" to-string-java="customerorderproduct.product.getName()">
+        <reference-property required="yes" name="product" label="Product Name" referenced-from="product" service-method="getAllBasic" to-string-ts="product.name"  to-string-java="product.getName()"/>
+        <decimal-property name="qty" label="Quantity" example="25" precision="13" scale="3" min="0" max="1000000"/>
+        <decimal-property name="unitprice" label="Unit Price" example="25" precision="13" scale="3" min="0" max="1000000"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Description"/>
+
+
+</regular-module>
+
+

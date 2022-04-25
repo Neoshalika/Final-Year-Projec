@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE trigger SYSTEM "./../dtd/trigger.dtd">
+<trigger name="productdisposalproduct_update" event="AFTER_UPDATE" table="productdisposalproduct">
+    DECLARE deference int(11) DEFAULT 0;
+
+    IF OLD.product_id = NEW.product_id THEN
+        IF OLD.qty != NEW.qty THEN
+            SET deference = OLD.qty - NEW.qty;
+            update product set qty = qty + deference where id = NEW.product_id;
+        END IF;
+    END IF;
+
+    IF OLD.product_id != NEW.product_id THEN
+        update product set qty = qty + OLD.qty where id = OLD.product_id;
+        update product set qty = qty - NEW.qty where id = NEW.product_id;
+    END IF;
+
+</trigger>
+
+

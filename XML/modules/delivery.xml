@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="delivery" to-string-ts="delivery.code" to-string-java="delivery.getCode()">
+    <code length="8" prefix="DE" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property width="6" basic="yes" exist-on-table="yes" name="customerorder" label="Customer Order" referenced-from="customerorder" service-method="getAllBasic" required="yes" to-string-ts="customerorder.code" to-string-java="customerorder.getCode()"/>
+        <reference-property width="6" searchable="yes" exist-on-table="yes" name="vehicle" label="Vehicle Number" referenced-from="vehicle" service-method="getAllBasic" required="yes" to-string-ts="vehicle.no" to-string-java="vehicle.getNo()"/>
+    </group>
+
+    <group>
+        <varchar-property width="6" exist-on-table="yes" basic="yes" required="yes" name="contactname" label="Contact Name" example="Kithsiri Ranasinghe"/>
+        <varchar-property width="6" exist-on-table="yes" basic="yes" name="contactno" label="Contact Number" unique="yes" example="0766123045" max-length="10" min-length="9" required="yes" pattern="^[0][0-9]{9}$"/>
+    </group>
+
+    <group>
+        <varchar-property width="4" exist-on-table="yes" searchable="yes" name="permitno" label="Permit Number" unique="yes" example="667744" max-length="10" min-length="1"/>
+        <int-property width="4" name="distance" label="Distance" example="40 km" max="1000" min="10"></int-property>
+        <reference-property width="4" name="deliverystatus" label="Delivery Status" referenced-from="deliverystatus" service-method="getAll" live="no" insertable="no" required="yes" default-value="1" to-string-ts="deliverystatus.name" to-string-java="deliverystatus.getName()"/>
+    </group>
+
+    <text-property name="address" label="Address" example="123, Colombo Road, Gampaha" min-length="4" required="yes"/>
+
+    <multiple-reference-property name="employee" label="Delivery Employee" to-string-ts="employee.code + '-' + employee.nametitle.name + ' ' + employee.callingname" to-string-java="employee.getCode() + #quat;-#quat; + employee.getNametitle.getName() + #quat; #quat; + employee.getCallingname()" service-method="getAllBasic" referenced-from="employee" min-count="1"/>
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+</regular-module>

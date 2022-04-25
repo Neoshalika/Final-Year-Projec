@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="loanrepayment" to-string-ts="loanrepayment.code" to-string-java="loanrepayment.getCode()">
+    <code length="8" prefix="LR" searchable="yes" exist-on-table="yes" />
+    <group>
+        <reference-property width="4" searchable="yes" exist-on-table="yes" basic="yes" name="loan" label="Loan ID" referenced-from="loan" service-method="getAllBasic" required="yes" to-string-ts="loan.code" to-string-java="loan.getCode()"/>
+        <date-property  exist-on-table="yes" width="4" name="date" label="Date" example="2020-12-31" required="yes"/>
+        <decimal-property exist-on-table="yes"  basic="yes" width="4" name="amount" required="yes" searchable="yes" label="Amount" example="25" precision="10" scale="2" min="0" max="100000000"/>
+    </group>
+
+    <text-property name="description" label="Description" example=" This is Description"/>
+
+
+</regular-module>
+
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="vehicle" to-string-ts="vehicle.code + '-' + vehicle.no" to-string-java="vehicle.getCode() + #quat;-#quat; + vehicle.getNo()">
+    <code length="8" prefix="VE" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <varchar-property width="3" basic="yes" exist-on-table="yes" searchable="yes" required="yes" name="no" label="Vehicle Number" example="CDF 3355"/>
+        <varchar-property width="3" basic="yes" exist-on-table="yes" searchable="yes" required="yes"  name="brand" label="Vehicle Brand" example="Mitubishi"/>
+        <varchar-property width="3" basic="yes" exist-on-table="yes"  required="yes" name="modal" label="Vehicle Modal" example="Mitubishi L200"/>
+        <reference-property width="3" name="vehiclestatus" label="Status" referenced-from="vehiclestatus" service-method="getAll" live="no" insertable="no" required="yes" default-value="1" to-string-ts="vehiclestatus.name" to-string-java="vehiclestatus.getName()"/>
+    </group>
+
+    <file-property basic="yes" name="photo" label="Photo" accept="image/*" exist-on-table="yes"/>
+
+
+    <text-property name="description" label="Description" example=" This is Discription"/>
+
+</regular-module>
+
+

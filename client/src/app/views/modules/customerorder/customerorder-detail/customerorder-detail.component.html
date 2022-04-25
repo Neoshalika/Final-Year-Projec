@@ -1,0 +1,118 @@
+<app-no-privilege *ngIf="!privilege.showOne" message="No privilege to show more details of a customerorder"></app-no-privilege>
+<app-object-not-found *ngIf="loaded && !customerorder" message="Customerorder Not Found"></app-object-not-found>
+<app-loading *ngIf="!loaded"></app-loading>
+<div *ngIf="customerorder && privilege.showOne">
+  <app-page-header
+    title="Customer Order Detail Page of {{ customerorder.code }}"
+    [breadcrumbSegments]="['Customerorders', 'Show All Customerorders', 'Details of ' + customerorder.code]"
+  ></app-page-header>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Created Date</th>
+                <td>{{customerorder.tocreation | date}}</td>
+              </tr>
+              <tr>
+                <th>Created Time</th>
+                <td>{{customerorder.tocreation | date: 'shortTime': '+0530'}}</td>
+              </tr>
+              <tr>
+                <th>Creator</th>
+                <td>{{getUserDisplayName(customerorder.creator)}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-8">
+      <mat-card class="example-card">
+        <mat-card-content>
+          <table class="w-100 table-striped custom-data-table">
+            <tbody>
+              <tr>
+                <th>Code</th>
+                <td>{{customerorder.code}}</td>
+              </tr>
+              <tr>
+                <th>Customer</th>
+                <td>{{customerorder.customer.nametitle.name + ' ' + customerorder.customer.name}}</td>
+              </tr>
+              <tr>
+                <th>Order Status</th>
+                <td>{{customerorder.customerorderstatus.name}}</td>
+              </tr>
+              <tr>
+                <th>Date of Ordered</th>
+                <td>{{customerorder.doordered | date: 'fullDate'}}</td>
+              </tr>
+              <tr>
+                <th>Date of Required</th>
+                <td>{{customerorder.dorequired | date: 'fullDate'}}</td>
+              </tr>
+              <tr *ngIf="customerorder.dofinished">
+                <th>Date of Finished</th>
+                <td>{{customerorder.dofinished | date: 'fullDate'}}</td>
+              </tr>
+              <tr *ngIf="customerorder.dohandovered">
+                <th>Date of Hand Overed</th>
+                <td>{{customerorder.dohandovered | date: 'fullDate'}}</td>
+              </tr>
+              <tr *ngIf="customerorder.discount">
+                <th>Discount</th>
+                <td>{{customerorder.discount}}</td>
+              </tr>
+              <tr *ngIf="customerorder.deliverycost">
+                <th>Delivery Cost</th>
+                <td>{{customerorder.deliverycost | currency: 'Rs.'}}</td>
+              </tr>
+              <tr>
+                <th>Total</th>
+                <td>{{customerorder.total | currency: 'Rs.'}}</td>
+              </tr>
+              <tr>
+                <th>Balance</th>
+                <td>{{customerorder.balance | currency: 'Rs.'}}</td>
+              </tr>
+                  <tr>
+                    <td colspan="2">
+                      <table class="w-100 custom-data-table">
+                        <thead>
+                          <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let customerorderproduct of customerorder.customerorderproductList">
+                            <td>{{customerorderproduct.product.name}}</td>
+                            <td>{{customerorderproduct.qty}}</td>
+                            <td>{{customerorderproduct.unitprice}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+              <tr *ngIf="customerorder.description">
+                <th>Description</th>
+                <td [innerHTML]="customerorder.description | nl2br"></td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="d-flex mt-5">
+    <button *ngIf="privilege.delete" (click)="delete()" class="ml-0" mat-raised-button color="warn"><mat-icon>delete</mat-icon> Delete</button>
+    <span class="spacer"></span>
+    <button *ngIf="privilege.update" routerLink="/customerorders/edit/{{customerorder.id}}" mat-raised-button color="accent"><mat-icon>edit</mat-icon> Change</button>
+    <button *ngIf="privilege.add" routerLink="/customerorders/add" mat-stroked-button><mat-icon>add</mat-icon> New Customerorder</button>
+    <button *ngIf="privilege.showAll" routerLink="/customerorders" class="mr-0" mat-raised-button color="primary"><mat-icon>list</mat-icon> All Customerorders</button>
+  </div>
+</div>

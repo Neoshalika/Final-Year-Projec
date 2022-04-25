@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="loan" to-string-ts="loan.code" to-string-java="loan.getCode()">
+    <code length="8" prefix="LO" searchable="yes" exist-on-table="yes"/>
+    <group>
+        <reference-property width="4" basic="yes" exist-on-table="yes" name="employee" label="Employee" referenced-from="employee" service-method="getAllBasic" required="yes" to-string-ts="employee.code + '-' + employee.nametitle.name + ' ' + employee.callingname" to-string-java="employee.getCode() + #quat;-#quat; + employee.getNametitle.getName() + #quat; #quat; + employee.getCallingname()"/>
+        <reference-property width="4" basic="yes" exist-on-table="yes" searchable="yes" name="paymenttype" label="Payment Type" referenced-from="paymenttype" service-method="getAll" live="no" required="yes" to-string-ts="paymenttype.name" to-string-java="paymenttype.getName()"/>
+        <reference-property width="4" name="paymentstatus" label="Payment Status" referenced-from="paymentstatus" service-method="getAll" live="no" insertable="no" required="yes" default-value="1" to-string-ts="paymentstatus.name" to-string-java="paymentstatus.getName()"/>
+    </group>
+
+    <group>
+        <date-property  basic="yes"  width="3" name="date" label="Date" example="2020-12-31" required="yes"/>
+        <decimal-property basic="yes" required="yes" width="3" name="amount" label="Amount" example="25" precision="10" scale="2" min="0" max="10000000" exist-on-table="yes"/>
+        <decimal-property  width="3" name="monthlyinstallment" label="Monthly Installment" example="25" precision="10" scale="2" min="0" max="10000000"/>
+        <decimal-property  width="3" name="balance" label="Balance" example="250" precision="10" scale="2" min="0" max="10000000"/>
+    </group>
+
+    <group>
+        <varchar-property pattern="^[0-9]{5,}$" width="6" basic="yes" exist-on-table="yes" searchable="yes" required="yes" name="chequeno" label="Cheque Number" example="2277"/>
+        <varchar-property pattern="^[a-zA-Z ]{3,}$" width="6"  required="yes" name="chequebank" exist-on-table="yes" label="Cheque Bank" example="BOC"/>
+    </group>
+    <group>
+        <varchar-property width="6" pattern="^[a-zA-Z ]{3,}$" required="yes" name="chequebranch" label="Cheque Branch" example="Galle BOC"/>
+        <date-property width="6" name="chequedate" label="Cheque Date" example="2020-12-31" required="yes" />
+    </group>
+
+    <text-property  name="reason" label="Reason" example="Reason ABC"/>
+
+
+</regular-module>
+
+

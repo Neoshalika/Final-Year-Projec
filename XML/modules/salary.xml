@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE regular-module SYSTEM "./../dtd/regular-module.dtd">
+<regular-module name="salary" to-string-ts="salary.code" to-string-java="salary.getCode()">
+    <code length="8" prefix="SA" searchable="yes" exist-on-table="yes"/>
+
+    <group>
+        <reference-property width="4" basic="yes" exist-on-table="yes" searchable="yes" name="employee" label="Employee" referenced-from="employee" service-method="getAllBasic" required="yes" to-string-ts="employee.nametitle.name + ' ' + employee.callingname" to-string-java="employee.getNametitle.getName() + #quat; #quat; + employee.getCallingname()"/>
+        <date-property exist-on-table="yes" width="4" basic="yes" name="month" label="Month" example="2020-12-00" required="yes" />
+        <date-property  width="4" name="date" label="Date" example="2020-12-31" required="yes"/>
+    </group>
+
+    <group>
+        <decimal-property  basic="yes" width="6" name="epf" label="EPF" required="yes" example="900" precision="10" scale="2" min="0" max="100000000"/>
+        <decimal-property  required="yes" basic="yes" width="6" name="etf" label="ETF" example="2500" precision="10" scale="2" min="0" max="100000000"/>
+    </group>
+
+    <group>
+        <decimal-property required="yes" width="6" exist-on-table="yes" name="grossincome" label="Gross Income" example="25000" precision="10" scale="2" min="0" max="100000000"/>
+        <decimal-property  width="6" exist-on-table="yes" required="yes" name="netsalary" label="Net Salary" example="19000" precision="10" scale="1" min="0" max="100000000"/>
+    </group>
+
+    <multiple-reference-property name="advancedpayment" label="Advanced Payment" to-string-java="advancedpayment.getCode()" to-string-ts="advancedpayment.code" service-method="getAllBasic" referenced-from="advancedpayment" min-count="1"/>
+
+    <sub-module label="Allowance" name="allowance" to-string-ts="allowance.amount" to-string-java="allowance.getAmount()">
+        <varchar-property required="yes" name="title" label="Salary Allowance Title" example="ABC"/>
+        <decimal-property name="amount" label="Amount" required="yes" example="25" precision="13" scale="3" min="0" max="1000000000"/>
+    </sub-module>
+
+    <sub-module label="Salary Loan" name="salaryloan" to-string-ts="salaryloan.amount" to-string-java="salaryloan.getAmount()">
+        <reference-property required="yes" name="loan" label="Loan" to-string-java="loan.getCode()" to-string-ts="loan.code" service-method="getAllBasic" referenced-from="loan"/>
+        <decimal-property required="yes" name="amount" label="Amount" example="25" precision="13" scale="3" min="0" max="100000000"/>
+    </sub-module>
+
+    <sub-module label="Salary Deduction" name="deduction" to-string-ts="deduction.amount" to-string-java="deduction.getAmount()">
+        <varchar-property required="yes" name="title" label="Salary Deduction Title" example="ABC"/>
+        <decimal-property required="yes" name="amount"  label="Amount" example="25" precision="13" scale="3" min="0" max="10000000"/>
+    </sub-module>
+
+    <text-property name="description" label="Description" example=" This is Description"/>
+
+</regular-module>
+
+
